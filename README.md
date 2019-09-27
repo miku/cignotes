@@ -6,7 +6,9 @@ In six chapters building block, patterns, scaling issues and internals are discu
 
 ![](images/os-review-17-4-10-1983.png)
 
-* race conditions
+It's hard.
+
+![](mch1.png)
 
 ## Modeling
 

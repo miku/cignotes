@@ -1,6 +1,10 @@
-map.png: map.dot
+MAPS = mch1.png
+
+.PHONY: maps
+maps: $(MAPS)
+
+%.png: %.dot
 	dot -Tpng $< > $@
 
 clean:
-	rm -f map.png
-
+	rm -f $(MAPS)
