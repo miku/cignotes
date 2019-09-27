@@ -30,6 +30,8 @@ func main() {
 	var a, b value
 	wg.Add(2)
 
+	// Distant, albeit possible case: One goroutine can race through both locks
+	// before the other.
 	go printSum(&a, &b)
 	go printSum(&b, &a) // Q: Would it deadlock with printSum(&a, &b) as well?
 
