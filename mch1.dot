@@ -5,9 +5,16 @@ digraph cig {
     "atomicity" [label="Atomicity"];
     "memsync" [label="Memory Access Synchronization"];
     "atomicity-context" [label="Atomicity Context"];
+
     "deadlocks" [label="Deadlocks"];
     "livelocks" [label="Livelocks"];
     "starvation" [label="Starvation"];
+
+    "coffman" [label="Coffman Conditions"];
+    "mutex" [label="Mutual Exclusion"];
+    "waitfor" [label="Wait For Condition"];
+    "nopreempt" [label="No Preemption"];
+    "circwait" [label="Circular Wait"];
 
     "concurrency" -> "whyhard";
     "whyhard" -> "racecond";
@@ -18,4 +25,11 @@ digraph cig {
     "concurrency" -> "deadlocks";
     "concurrency" -> "livelocks";
     "concurrency" -> "starvation";
+
+    "deadlocks" -> "coffman";
+    "coffman" -> "mutex";
+    "coffman" -> "waitfor";
+    "coffman" -> "nopreemt";
+    "coffman" -> "circwait";
+
 }
