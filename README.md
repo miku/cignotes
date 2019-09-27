@@ -58,10 +58,14 @@ Go](https://songlh.github.io/paper/go-study.pdf) suggested otherwise, no?
 * input and output are overlooked properties of (concurrent) programs
 * process calculus
 
-A process requires input to run. Other processed might consume output.
-
 ![](images/table21.png)
 
+A process requires input to run. Other processed might consume output.
+
+### How does it help?
+
+Goroutines may help shift thinking about *parallelism* to thinking about
+*concurrency*.
 
 ## 3 Building blocks
 
