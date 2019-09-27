@@ -204,6 +204,46 @@ In the book: `2.817kb`, on my machine `0.007kb`.
 
 * also: [NumGoroutine](https://golang.org/pkg/runtime/#NumGoroutine)
 
+Also: context switch overhead, but much better in software than on OS level.
+
+```shell
+$ sudo apt install linux-tools-generic linux-tools-5.0.0-29-generic \
+    linux-cloud-tools-5.0.0-29-generic linux-cloud-tools-generic \
+    perf-tools-unstable
+```
+
+Result from a `perf` test:
+
+```
+$ taskset -c 0 perf bench sched pipe -T
+# Running 'sched/pipe' benchmark:
+# Executed 1000000 pipe operations between two threads
+
+     Total time: 6.158 [sec]
+
+       6.158190 usecs/op
+         162385 ops/sec
+```
+
+> This benchmark actually measures the time it takes to send and receive a
+> message on a thread, so we'll take the result and divide it by two.
+
+So: 3us per CSW or 300k CSW/s at most. As I am writing this, ~ 2000 CSW/s.
+
+```shell
+$ make
+go test -bench=. -cpu=1
+goos: linux
+goarch: amd64
+pkg: github.com/miku/cignotes/x/csw
+BenchmarkContextSwitch   6272942               191 ns/op
+PASS
+ok      github.com/miku/cignotes/x/csw  2.332s
+```
+
+* 191ns per CSW, much better.
+
+
 ### Package sync
 
 ### Channels
