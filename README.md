@@ -22,7 +22,21 @@ coordination). Subset of Starvation.
 
 ### Starvation
 
-One or more greedy process. Livelock a special case, since no process makes progress.
+One or more greedy process. Livelock a special case, since no process makes
+progress. Example: polite worker, keep critical section short.
+
+### Is it safe?
+
+Reduce API ambiguity, be explicit or do not expose concurrency at all.
+
+### Simplicity in the Face of Complexity
+
+> with Go’s concurrency primitives, you can more safely and clearly express
+your concurrent algorithms.
+
+[Understanding Real-World Concurrency Bugs in
+Go](https://songlh.github.io/paper/go-study.pdf) suggested otherwise, no?
+
 
 ## Modeling
 
