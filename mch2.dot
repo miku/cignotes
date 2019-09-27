@@ -1,6 +1,7 @@
 digraph mch2 {
     "concurrency" [label="Concurrency"];
     "parallelism" [label="Parallelism"];
+    "csp" [label="CSP"];
 
     "concurrency" -> "parallelism" [label="is not" shape="dashed"];
 

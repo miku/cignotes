@@ -40,7 +40,28 @@ Go](https://songlh.github.io/paper/go-study.pdf) suggested otherwise, no?
 
 ## 2 Modeling
 
+### Concurrency != Parallelism
+
 ![](mch2.png)
+
+> Concurrency is a property of the code; parallelism is a property of the
+> running program.
+
+* code **is** not parallel &mdash; we hope it will **run** in parallel
+
+> If you wanted to write concurrent code, you would model your program in terms
+> of threads and synchronize the access to the memory between them.
+
+### What is CSP?
+
+* 1978
+* input and output are overlooked properties of (concurrent) programs
+* process calculus
+
+A process requires input to run. Other processed might consume output.
+
+![](images/table21.png)
+
 
 ## 3 Building blocks
 
