@@ -67,6 +67,49 @@ A process requires input to run. Other processed might consume output.
 Goroutines may help shift thinking about *parallelism* to thinking about
 *concurrency*.
 
+What would a few questions be, if you would need to implement a web server with
+threads?
+
+* language support
+* design, thread boundaries
+* optimal number for a pool
+
+> If we step back and think about the natural problem, we could state it as such:
+individual users are connecting to my endpoint and opening a session.  The
+session should field their request and return a response. In Go, we can almost
+directly represent the natural state of this problem in code: we would create a
+goroutine for each incoming connection, field the request there (potentially
+communicating with other goroutines for data/services), and then return from
+the goroutine's function. How we naturally think about the problem maps
+directly to the natural way to code things in Go.
+
+Side effect, separation of concerns.
+
+> A more natural mapping to the problem space is an enormous benefit, but it
+> has a few beneficial side effects as well. Go's runtime multiplexes
+> goroutines onto OS threads automatically and manages their scheduling for us.
+> This means that optimizations to the runtime can be made without us having to
+> change how we’ve modeled our prob‐ lem; this is classic separation of
+> concerns.
+
+More composable.
+
+> Channels, for instance, are inherently composable with other channels. This
+> makes writing large systems simpler because you can coordinate the input from
+> multiple subsystems by easily composing the output together. You can combine
+> input channels with timeouts, cancellations, or messages to other subsystems.
+> Coordinating mutexes is a much more difficult proposition.
+
+The `select` statement help composition.
+
+### Go Approach
+
+* support CSP and classic style (locks, pool, ...)
+
+[So which should you use?](https://github.com/golang/go/wiki/MutexOrChannel)
+
+> Use whichever is most expressive and/or most simple.
+
 ## 3 Building blocks
 
 ## 4 Patterns
