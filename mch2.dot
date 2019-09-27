@@ -1,0 +1,7 @@
+digraph mch2 {
+    "concurrency" [label="Concurrency"];
+    "parallelism" [label="Parallelism"];
+
+    "concurrency" -> "parallelism" [label="is not" shape="dashed"];
+
+}

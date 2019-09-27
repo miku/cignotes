@@ -2,7 +2,7 @@
 
 In six chapters building block, patterns, scaling issues and internals are discussed.
 
-## Intro
+## 1 Intro
 
 ![](images/deadly-embrace.png)
 
@@ -38,14 +38,16 @@ your concurrent algorithms.
 Go](https://songlh.github.io/paper/go-study.pdf) suggested otherwise, no?
 
 
-## Modeling
+## 2 Modeling
 
-## Building blocks
+![](mch2.png)
 
-## Patterns
+## 3 Building blocks
 
-## Scale
+## 4 Patterns
 
-## Internals
+## 5 Scale
+
+## 6 Internals
 
 

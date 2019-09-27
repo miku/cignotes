@@ -1,4 +1,4 @@
-MAPS = mch1.png
+MAPS = mch1.png mch2.png
 
 .PHONY: maps
 maps: $(MAPS)
