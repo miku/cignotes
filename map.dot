@@ -1,0 +1,21 @@
+digraph cig {
+    "concurrency" [label="Concurrency"];
+    "whyhard" [label="Why hard?"];
+    "racecond" [label="Race conditions"];
+    "atomicity" [label="Atomicity"];
+    "memsync" [label="Memory Access Synchronization"];
+    "atomicity-context" [label="Atomicity Context"];
+    "deadlocks" [label="Deadlocks"];
+    "livelocks" [label="Livelocks"];
+    "starvation" [label="Starvation"];
+
+    "concurrency" -> "whyhard";
+    "whyhard" -> "racecond";
+    "whyhard" -> "atomicity";
+    "atomicity" -> "atomicity-context";
+    "whyhard" -> "memsync";
+
+    "concurrency" -> "deadlocks";
+    "concurrency" -> "livelocks";
+    "concurrency" -> "starvation";
+}
