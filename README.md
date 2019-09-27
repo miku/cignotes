@@ -246,6 +246,108 @@ ok      github.com/miku/cignotes/x/csw  2.332s
 
 ### Package sync
 
+#### The WaitGroup
+
+![](images/cook.jpg)
+
+> WaitGroup is a great way to wait for a set of concurrent operations to >
+> complete when you either don't care about the result of the concurrent
+> operation, or you have other means of collecting their results.
+
+#### Mutex, RWMutex
+
+> A Mutex provides a concurrent-safe way to express exclusive access to these
+> shared resources.
+
+* put `Unlock` in `defer`
+* minimize critical sections
+
+The RWMutex is more fine grained.
+
+> This means that an arbitrary number of readers can hold a reader lock so long
+> as nothing else is holding a writer lock.
+
+#### Cond
+
+> A rendezvous point for goroutines waiting for or announcing the occurrence
+of an event.
+
+Inefficient checks for a condition:
+
+```go
+for conditionTrue() == false {
+}
+```
+
+Better:
+
+```go
+for conditionTrue() == false {
+    time.Sleep(1*time.Millisecond)
+}
+```
+
+Better:
+
+```go
+c := sync.NewCond(&sync.Mutex{})
+c.L.Lock()
+for conditionTrue() == false {
+	c.Wait() // blocked - and goroutine suspended
+}
+c.L.Unlock()
+```
+
+* NewCond takes a `sync.Locker` (interface)
+* Wait, Broadcast and Signal
+
+> Internally, the runtime maintains a FIFO list of goroutines waiting to be >
+> signaled; Signal finds the goroutine that’s been waiting the longest and
+> notifies that, whereas Broadcast sends a signal to all goroutines that are
+> waiting. Broadcast is arguably the more interesting of the two methods as it
+> provides a way to communicate with multiple goroutines at once.
+
+A GUI example (but which GUI framework).
+
+> To get a feel for what it's like to use Broadcast, let's imagine we're
+> creating a GUI application with a button on it. We want to register an
+> arbitrary number of functions that will run when that button is clicked. A
+> Cond is perfect for this because we can use its Broadcast method to notify
+> all registered handlers.
+
+#### Once
+
+Odd function, often used.
+
+```
+$ grep -ir sync.Once $(go env GOROOT)/src | wc -l
+```
+
+* book: 70, me (Go 1.13): 112
+
+#### Pool
+
+> Pool is a concurrent-safe implementation of the object pool pattern.
+
+> At a high level, a the pool pattern is a way to create and make available a
+> fixed number, or pool, of things for use. It's commonly used to constrain
+> the creation of things that are expensive (e.g., database connections) so
+> that only a fixed number of them are ever created, but an indeterminate
+> number of operations can still request access to these things.
+
+```go
+myPool := &sync.Pool{
+	New: func() interface{} {
+		fmt.Println("Creating new instance.")
+		return struct{}{}
+	},
+}
+myPool.Get()
+instance := myPool.Get()
+myPool.Put(instance)
+myPool.Get()
+```
+
 ### Channels
 
 ### The select statement
