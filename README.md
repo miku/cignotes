@@ -10,6 +10,11 @@ It's hard.
 
 ![](mch1.png)
 
+### Cofman Conditions
+
+If at least one of the conditions is not true, we can *prevent* deadlocks (but
+it's hard to reason about code).
+
 ## Modeling
 
 ## Building blocks

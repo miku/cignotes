@@ -29,7 +29,6 @@ digraph cig {
     "deadlocks" -> "coffman";
     "coffman" -> "mutex";
     "coffman" -> "waitfor";
-    "coffman" -> "nopreemt";
+    "coffman" -> "nopreempt";
     "coffman" -> "circwait";
-
 }
