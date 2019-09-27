@@ -4,7 +4,7 @@ In six chapters building block, patterns, scaling issues and internals are discu
 
 ## Intro
 
-![](images/os-review-17-4-10-1983.png)
+![](images/deadly-embrace.png)
 
 It's hard.
 
