@@ -15,6 +15,7 @@ digraph cig {
     "waitfor" [label="Wait For Condition"];
     "nopreempt" [label="No Preemption"];
     "circwait" [label="Circular Wait"];
+    "nocoord" [label="Deadlock prevention w/o coordination"];
 
     "concurrency" -> "whyhard";
     "whyhard" -> "racecond";
@@ -25,6 +26,9 @@ digraph cig {
     "concurrency" -> "deadlocks";
     "concurrency" -> "livelocks";
     "concurrency" -> "starvation";
+
+    "livelocks" -> "nocoord";
+    "livelocks" -> "starvation" [label="is a subset"];
 
     "deadlocks" -> "coffman";
     "coffman" -> "mutex";
