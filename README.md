@@ -110,6 +110,8 @@ The `select` statement help composition.
 
 > Use whichever is most expressive and/or most simple.
 
+![](images/fig21.png)
+
 ## 3 Building blocks
 
 ## 4 Patterns
