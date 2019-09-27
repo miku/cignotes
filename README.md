@@ -486,16 +486,133 @@ func main() {
 }
 ```
 
-Finally, there is a `default` clause.
+Finally, there is a `default` clause, entered when no other case can be
+entered. Also in conjuction with `for` to allow for control.
 
+```go
+package main
+
+import (
+        "fmt"
+        "time"
+)
+
+func main() {
+        done := make(chan interface{})
+        go func() {
+                time.Sleep(5 * time.Second)
+                close(done)
+        }()
+        workCounter := 0
+loop:
+        for {
+                select {
+                case <-done:
+                        break loop
+                default:
+                }
+                // Simulate work
+                workCounter++
+                time.Sleep(1 * time.Second)
+        }
+        fmt.Printf("Achieved %v cycles of work before signalled to stop.\n", workCounter)
+}
+```
 
 ### GOMAXPROCS
 
-###
+* number of OS threads used
+
+Have you used this?
+
+```go
+runtime.GOMAXPROCS(runtime.NumCPU())
+
+```
+
+Debug story:
+
+> By increasing GOMAXPROCS beyond the number of logical CPUs we had, we were
+> able to trigger the race conditions much more often, and thus get them
+> corrected faster.
 
 ## 4 Patterns
 
+About twelve patterns:
+
+* confinement
+* for-select
+* preventing leaks
+* or-channel
+* error handling
+* pipelines
+* fan-in, fan-out
+* or-done-channel
+* tee-channel
+* bridge-channel
+* queueing
+* context package
+
+### Preventing Goroutine Leaks
+
+Possible terminations:
+
+* work done
+* unrecoverable error
+* told to stop work
+
+Example:
+
+* [leak](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/preventing-goroutine-leaks/fig-goroutine-leaks-example.go)
+* [cancellation](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/preventing-goroutine-leaks/fig-goroutine-leaks-cancellation.go)
+
+### Error handling
+
+Example, parallel crawler. Key: Couple result and error - in a struct. Main
+goroutine can decide. Separate error handling from the producer goroutine.
+
+### Fan-in, fan-out
+
+Prime finder.
+
+* [naive](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/fan-out-fan-in/fig-naive-prime-finder.go)
+* [fan-out, fan-in](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/fan-out-fan-in/fig-fan-out-naive-prime-finder.go)
+
+### The tee-channel
+
+Like the `tee` command, duplicate values - e.g. towards processing and logging.
+
+
+### Context package
+
+Helps to prevent leaks, by providing ways to cancel complete trees of processing threads.
+
+* WithCancel (when cancelFunc is called)
+* WithDeadline (time.Time)
+* WithTimeout (time.Duration)
+
+On top of the call-graph, use `Background` (empty) or `TODO` (also empty, just a marker).
+
+* [done channel](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/the-context-package/fig-greeter-with-done-chan.go)
+* [context](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-patterns-in-go/the-context-package/fig-greeter-with-context.go)
+
+Context can carry some request scoped data - `WithValue` (maybe use a custom key type for your app).
+
 ## 5 Scale
+
+Problem of error propagation.
+
+### Cancellation and Timeouts
+
+* system saturation, stale data, attempt to prevent deadlocks
+* timeouts, user intervention, parent cancellation, replicated requests
+
+### Heartbeats
+
+* using `time.Tick`
+* [heartbeat](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-at-scale/heartbeats/fig-interval-heartbeat.go)
+* [misbehaving](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-at-scale/heartbeats/fig-interval-heartbeat-misbehaving-goroutine.go)
+
 
 ## 6 Internals
 
