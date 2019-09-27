@@ -28,7 +28,7 @@ digraph cig {
     "concurrency" -> "starvation";
 
     "livelocks" -> "nocoord";
-    "livelocks" -> "starvation" [label="is a subset"];
+    "livelocks" -> "starvation" [label="is a subset of"];
 
     "deadlocks" -> "coffman";
     "coffman" -> "mutex";
