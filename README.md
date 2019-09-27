@@ -112,7 +112,107 @@ The `select` statement help composition.
 
 ![](images/fig21.png)
 
+Thread-safe, transparent to the caller.
+
+```go
+type Counter struct {
+	mu    sync.Mutex
+	value int
+}
+
+func (c *Counter) Increment() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.value++
+}
+```
+
+Performance.
+
+> This is because channels use memory access synchronization to operate,
+> therefore they can only be slower.
+
 ## 3 Building blocks
+
+### Goroutines
+
+* always at least one present
+
+> They're not OS threads, and they're not exactly green threads—threads that
+> are managed by a language's runtime - they're a higher level of abstraction
+> known as coroutines. Coroutines are simply concurrent subroutines (functions,
+> closures, or methods in Go) that are nonpreemptive - that is, they cannot be
+> interrupted.
+
+> Goroutines don't define their own suspension or reentry points; Go's runtime
+> observes the runtime behavior of goroutines and automatically suspends them
+> when they block and then resumes them when they become unblocked.
+
+> In a way this makes them preemptable, but only at points where the goroutine
+> has become blocked.
+
+Meet the host.
+
+> Go's mechanism for hosting goroutines is an implementation of what's called
+> an M:N scheduler.
+
+Map M green threads onto N OS threads. Goroutines are scheduled onto green
+threads. It's a *fork-join* model, at any point you can start a goroutine and
+they may join again later - through some synchronisation (e.g. a WaitGroup).
+
+#### Pop quiz
+
+* `hello` or `welcome` - which one is it?
+
+```go
+var wg sync.WaitGroup
+salutation := "hello"
+wg.Add(1)
+go func() {
+	defer wg.Done()
+	salutation = "welcome"
+}()
+wg.Wait()
+fmt.Println(salutation)
+```
+
+Next one is a bit trickier.
+
+```go
+var wg sync.WaitGroup
+for _, salutation := range []string{"hello", "greetings", "good day"} {
+    wg.Add(1)
+    go func() {
+        defer wg.Done()
+        fmt.Println(salutation)
+    }()
+}
+wg.Wait()
+```
+
+* loop might exit, before the goroutines start
+* GC won't pickup `salutation` because it is still referenced
+* solution: pass value as argument to goroutine
+
+Core idea: Goroutines run in the same address space.
+
+<!-- TODO: write program that let's the GR's stack explode -->
+
+#### Size of a Goroutine
+
+In the book: `2.817kb`, on my machine `0.007kb`.
+
+* also: [NumGoroutine](https://golang.org/pkg/runtime/#NumGoroutine)
+
+### Package sync
+
+### Channels
+
+### The select statement
+
+### GOMAXPROCS
+
+###
 
 ## 4 Patterns
 
