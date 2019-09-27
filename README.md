@@ -22,6 +22,8 @@ coordination). Subset of Starvation.
 
 ### Starvation
 
+One or more greedy process. Livelock a special case, since no process makes progress.
+
 ## Modeling
 
 ## Building blocks
