@@ -613,7 +613,24 @@ Problem of error propagation.
 * [heartbeat](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-at-scale/heartbeats/fig-interval-heartbeat.go)
 * [misbehaving](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-at-scale/heartbeats/fig-interval-heartbeat-misbehaving-goroutine.go)
 
+### Replicated Requests
+
+* request hedging, run multiple request with the same target, use the fastest response
+
+Scholarly metadata fortune cookie.
+
+```
+$ metha-fortune
+```
+
+### Rate Limiting
+
+* token bucket algorithm
+* [simple](https://github.com/kat-co/concurrency-in-go-src/blob/master/concurrency-at-scale/rate-limiting/fig-simple-rate-limit.go)
 
 ## 6 Internals
 
+Work stealing scheduler.
+
+* https://rakyll.org/scheduler/
 
