@@ -243,6 +243,7 @@ ok      github.com/miku/cignotes/x/csw  2.332s
 
 * 191ns per CSW, much better.
 
+<!-- LockOSThread -->
 
 ### Package sync
 

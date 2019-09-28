@@ -17,9 +17,8 @@ func main() {
 	var wg sync.WaitGroup
 
 	noop := func() {
-		// Blocks indefinitely.
 		wg.Done()
-		<-c
+		<-c // XXX
 	}
 	const numGoroutines = 1e4
 	wg.Add(numGoroutines)
@@ -29,7 +28,7 @@ func main() {
 		go noop()
 	}
 	wg.Wait()
-	after := memConsumed()
+	after := memConsumed() // XXX: Why the variety?
 
 	fmt.Printf("%.3fkb\n", float64(after-before)/numGoroutines/1000)
 	fmt.Printf("number of goroutines running: %v\n", runtime.NumGoroutine())
