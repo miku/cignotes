@@ -20,7 +20,7 @@ func main() {
 		wg.Done()
 		<-c // XXX
 	}
-	const numGoroutines = 1e4
+	const numGoroutines = 1e5
 	wg.Add(numGoroutines)
 
 	before := memConsumed()
@@ -30,6 +30,6 @@ func main() {
 	wg.Wait()
 	after := memConsumed() // XXX: Why the variety?
 
-	fmt.Printf("%.3fkb\n", float64(after-before)/numGoroutines/1000)
+	fmt.Printf("%.3fkb\n", float64(after-before)/numGoroutines/1024)
 	fmt.Printf("number of goroutines running: %v\n", runtime.NumGoroutine())
 }
